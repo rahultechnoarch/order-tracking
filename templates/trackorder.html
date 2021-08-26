@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %} Track Order {% endblock title %}
+{% block trackorderactive %} active {% endblock trackorderactive %}
+{% block body %}
+
+<div class="container input-group text-center my-5">
+<form method="post" action="/search" class="d-flex">
+{% csrf_token %}
+    <input name="orderId" id="orderId" type="search" class="form-control rounded" placeholder="Enter your OrderId" aria-label="Search" aria-describedby="search-addon" />
+    <button type="submit" class="btn btn-outline-primary">Track Your Order</button>
+</form>
+</div>
+
+{% endblock body %}
