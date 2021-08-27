@@ -1,33 +1,61 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
+
 {% block title %} Order Search Results {% endblock title %} 
+{% block body_class %}bgsearchorder{% endblock body_class %}
 
 {% block body %}
-<div class="container my-4">
+<div class="container my-4" >
     <h2>Search Results by OrderTracks:</h2>
-
     <!--Functionality if no order found-->
     {% if allOrders|length < 1 %}
-    Your OrderId - <b> {{orderId | truncatechars:10}} </b>- did not match any orders.
-    <br>
+    <b> {{orderId | truncatechars:10}} </b>- no such orders found.<br><br>
     Suggestion:
     <ul>
-    <li>Check your OrderId.</li>
-    <li>Enter Correct OrderId.</li>
+    <li>Check your Order Id.</li>
     </ul> 
     {% endif %}
+
+    <!--Functionality to search the database for orders-->
     {% for order in allOrders %}
-    <!--Functionality to search the database for oders-->
-    <div class="card col-md-4 my-4">
-        <p class="">
-            <p class="card-title"><b> OrderId: </b>{{order.order_id}}</p>
+    <div id="div1searchorder">
+        <div class="card col-md-4 m-4 p-4">
+            <p class="card-text"><b> OrderId: </b>{{order.order_id}}</p>
             <p class="card-text"><b> Customer Name: </b>{{order.custname}}</p>
             <p class="card-text"><b> Contact Number: </b>{{order.custnumber}}</p>
             <p class="card-text"><b> Delivery Address: </b>{{order.custaddress}}</p>
             <p class="card-text"><b> Order Price: </b>{{order.order_Price}}</p>
             <p class="card-text"><b> Order Date/Time: </b>{{order.order_Time}}</p>
-        </p>
+        </div>
+        <div class="text-center p-1" id="div2searchorder">
+            {% for update in allUpdates %}
+            <!--JS Function to set class-->
+                    <a class="btn btn-primary" href="#trackstatus"  onclick="setStatus('step active', '{{update.status}}')">Get Tracking Status</a>
+            {% endfor %} 
+        </div>
+    {% endfor %}  
     </div>
+    <!--Functionality for orders tracking timeline-->
+    {% for update in allUpdates %}        
+        <!--Order tracking Timeline-->
+        <div class="card card-timeline px-2 border-none mb-3 mt-4" id="div3searchorder">
+            <ul class="bs4-order-tracking">
+                <li id="or">
+                <div><i class="fa fa-user" aria-hidden="true"></i></div> Order Received
+                </li>
+                <li id="it">
+                <div><i class="fa fa-superpowers" aria-hidden="true"></i></div> In Transit
+                </li>
+                <li id="ofd">
+                <div><i class="fa fa-truck" aria-hidden="true"></i></div> Out for Delivery
+                </li>
+                <li id="od">
+                <div><i class="fa fa-birthday-cake" aria-hidden="true"></i></div> Order Delivered
+                </li>
+            </ul>
+            <h5 class="text-center"><b>{{update.status}}</b>. {{update.statustext}}</h5>
+            <h6 class="text-center"> <b> Status Updated At: </b>{{update.update_Time}}</h6>
+        </div>
+    {% endfor %} 
     <span><a class="btn btn-primary btn-lg" href="/trackorder" role="button">Back</a></span>
-    {% endfor %}
 </div>
 {% endblock body %}
