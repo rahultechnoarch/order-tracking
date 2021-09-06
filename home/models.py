@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 #specify the choices
 status_choices = (
-    ("rder_received", "Order Received"),
+    ("Order_received", "Order Received"),
     ("In_transit", "In Transit"),
     ("Out_for_delivery", "Out for Delivery"),
     ("Order_delivered", "Order Delivered"),
